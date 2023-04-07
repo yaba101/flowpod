@@ -28,7 +28,7 @@ export function ForwardButton({
 	amount = 10,
 }: {
 	player: any
-	amount: number
+	amount?: number
 }) {
 	return (
 		<button

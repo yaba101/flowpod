@@ -20,7 +20,7 @@ export function RewindButton({
 	amount = 10,
 }: {
 	player: any
-	amount: number
+	amount?: number
 }) {
 	return (
 		<button
