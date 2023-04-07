@@ -1,3 +1,4 @@
+'use client'
 import { useMemo } from 'react'
 import { useAudioPlayer } from './AudioProvider'
 import { Container } from './Container'
@@ -15,15 +16,15 @@ type EpisodeProps = {
 	description: string
 }
 
-export default function EpisodeItem(episode: EpisodeProps) {
+export default function EpisodeItem({ episode }: { episode: EpisodeProps }) {
 	let date = new Date(episode.published)
 
 	let audioPlayerData = useMemo(
 		() => ({
 			title: episode.title,
 			audio: {
-				src: episode.audio.src,
-				type: episode.audio.type,
+				src: episode.audio?.src,
+				type: episode.audio?.type,
 			},
 			link: `/${episode.id}`,
 		}),

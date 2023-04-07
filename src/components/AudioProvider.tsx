@@ -1,3 +1,4 @@
+'use client'
 import { createContext, useContext, useMemo, useReducer, useRef } from 'react'
 
 const AudioPlayerContext = createContext(null)
@@ -117,13 +118,13 @@ export function useAudioPlayer(data: unknown) {
 		() => ({
 			...player,
 			play() {
-				player.play(data)
+				player?.play(data)
 			},
 			toggle() {
-				player.toggle(data)
+				player?.toggle(data)
 			},
 			get playing() {
-				return player.isPlaying(data)
+				return player?.isPlaying(data)
 			},
 		}),
 		[player, data]
