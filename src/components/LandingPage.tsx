@@ -130,7 +130,7 @@ const LandingPage = () => {
 					<p>Get the latest episodes every friday at 3 pm</p>
 				</div>
 				<div className=' grid grid-cols-2 justify-center items-center shadow-inner shadow-gray-800 p-10 ml-3 mb-1 mr-3'>
-					<div className='flex flex-col px-8 py-6'>
+					<div className='flex flex-col px-10 py-6 '>
 						<h2 className='mb-2 text-lg font-semibold sm:text-xl title-font dark:text-gray-100'>
 							HyperFocus
 						</h2>
@@ -153,7 +153,7 @@ const LandingPage = () => {
 							</svg>
 						</a>
 					</div>
-					<div className='flex flex-col px-8 py-6'>
+					<div className='flex flex-col px-10 py-6 '>
 						<h2 className='mb-2 text-lg font-semibold sm:text-xl title-font dark:text-gray-100'>
 							HyperFocus
 						</h2>
@@ -176,7 +176,7 @@ const LandingPage = () => {
 							</svg>
 						</a>
 					</div>
-					<div className='flex flex-col px-8 py-6'>
+					<div className='flex flex-col px-10 py-6 '>
 						<h2 className='mb-2 text-lg font-semibold sm:text-xl title-font dark:text-gray-100'>
 							HyperFocus
 						</h2>
@@ -199,7 +199,7 @@ const LandingPage = () => {
 							</svg>
 						</a>
 					</div>
-					<div className='flex flex-col px-8 py-6'>
+					<div className='flex flex-col px-10 py-6 '>
 						<h2 className='mb-2 text-lg font-semibold sm:text-xl title-font dark:text-gray-100'>
 							HyperFocus
 						</h2>
