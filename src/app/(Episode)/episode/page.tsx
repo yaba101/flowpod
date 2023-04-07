@@ -11,13 +11,11 @@ async function getEpisodes() {
 const page = async () => {
 	const episodes = await getEpisodes()
 	return (
-		<div className='pt-16 pb-12 sm:pb-4 lg:pt-12'>
+		<div className='pt-16 pb-12 sm:pb-4 lg:pt-12 bg-slate-950 '>
 			<Container>
-				<h1 className='text-2xl font-bold leading-7 text-slate-900'>
-					Episodes
-				</h1>
+				<h1 className='text-2xl font-bold leading-7 text-gray-200'>Episodes</h1>
 			</Container>
-			<div className='divide-y divide-slate-100 sm:mt-4 lg:mt-8 lg:border-t lg:border-slate-100'>
+			<div className='divide-y divide divide-slate-600 sm:mt-4 lg:mt-8 lg:border-t lg:border-slate-600'>
 				{episodes.map((episode) => (
 					<EpisodeItem key={episode.id} episode={episode} />
 				))}
