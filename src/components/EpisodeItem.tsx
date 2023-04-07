@@ -26,7 +26,7 @@ export default function EpisodeItem({ episode }: { episode: EpisodeProps }) {
 				src: episode.audio?.src,
 				type: episode.audio?.type,
 			},
-			link: `/${episode.id}`,
+			link: `/episode/${episode.id}`,
 		}),
 		[episode]
 	)
@@ -41,7 +41,7 @@ export default function EpisodeItem({ episode }: { episode: EpisodeProps }) {
 					<h2
 						id={`episode-${episode.id}-title`}
 						className='mt-2 text-lg font-bold text-gray-200'>
-						<Link href={`/${episode.id}`}>{episode.title}</Link>
+						<Link href={`/episode/${episode.id}`}>{episode.title}</Link>
 					</h2>
 					<FormattedDate
 						date={date}
@@ -72,7 +72,7 @@ export default function EpisodeItem({ episode }: { episode: EpisodeProps }) {
 							/
 						</span>
 						<Link
-							href={`/${episode.id}`}
+							href={`/episode/${episode.id}`}
 							className='flex items-center text-sm font-bold leading-6 text-teal-500 hover:text-amber-800 active:text-amber-900'
 							aria-label={`Show notes for episode ${episode.title}`}>
 							Show notes

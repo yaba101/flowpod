@@ -5,7 +5,19 @@ import { parse } from 'rss-to-json'
 
 async function getEpisodes() {
 	let feed = await parse('https://their-side-feed.vercel.app/api/feed')
-	return feed.items
+	let episodes = feed.items.map(
+		({ id, title, description, enclosures, published }) => ({
+			id,
+			title: `${id}: ${title}`,
+			published,
+			description,
+			audio: enclosures.map((enclosure: { url: string; type: string }) => ({
+				src: enclosure.url,
+				type: enclosure.type,
+			}))[0],
+		})
+	)
+	return episodes
 }
 
 const page = async () => {

@@ -1,3 +1,4 @@
+'use client'
 import { useRef } from 'react'
 import {
 	mergeProps,
@@ -16,7 +17,7 @@ function parseTime(seconds: number) {
 	return [hours, minutes, seconds]
 }
 
-function formatTime(seconds: number[], totalSeconds: number[] = seconds) {
+function formatTime(seconds, totalSeconds = seconds) {
 	let totalWithoutLeadingZeroes = totalSeconds.slice(
 		totalSeconds.findIndex((x) => x !== 0)
 	)
