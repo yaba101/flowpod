@@ -1,7 +1,48 @@
 'use client'
 import { createContext, useContext, useMemo, useReducer, useRef } from 'react'
 
-const AudioPlayerContext = createContext(null)
+type Actions = {
+	play(data: {
+		title: string
+		audio: {
+			src: string
+			type: string
+		}
+		link: string
+	}): void
+	pause(): void
+	toggle(data: any): void
+	seekBy(amount: any): void
+	seek(time: any): void
+	playbackRate(rate: any): void
+	toggleMute(): void
+	isPlaying(data: {
+		title: string
+		audio: {
+			src: string
+			type: string
+		}
+		link: string
+	}): boolean
+}
+const initState = {
+	playing: false,
+	muted: false,
+	duration: 0,
+	currentTime: 0,
+	meta: {
+		title: '',
+		audio: {
+			src: '',
+			type: '',
+		},
+		link: '',
+	},
+}
+
+type AudioPlayerContextType = Actions & typeof initState
+
+const AudioPlayerContext = createContext<AudioPlayerContextType | null>(null)
 
 type SetMetaType = {
 	type: 'SET_META'
@@ -71,11 +112,11 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
 		currentTime: 0,
 		meta: null,
 	})
-	let playerRef = useRef(null)
+	let playerRef = useRef<any>(null)
 
 	let actions = useMemo(() => {
 		return {
-			play(data) {
+			play(data: { audio: { src: string } }) {
 				if (data) {
 					dispatch({ type: 'SET_META', payload: data })
 
@@ -94,22 +135,22 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
 			pause() {
 				playerRef.current.pause()
 			},
-			toggle(data) {
+			toggle(data: any) {
 				this.isPlaying(data) ? actions.pause() : actions.play(data)
 			},
-			seekBy(amount) {
+			seekBy(amount: any) {
 				playerRef.current.currentTime += amount
 			},
-			seek(time) {
+			seek(time: any) {
 				playerRef.current.currentTime = time
 			},
-			playbackRate(rate) {
+			playbackRate(rate: any) {
 				playerRef.current.playbackRate = rate
 			},
 			toggleMute() {
 				dispatch({ type: 'TOGGLE_MUTE' })
 			},
-			isPlaying(data) {
+			isPlaying(data: { audio: { src: string } }) {
 				return data
 					? state.playing && playerRef.current.currentSrc === data.audio.src
 					: state.playing
@@ -146,20 +187,20 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
 	)
 }
 
-export function useAudioPlayer(data) {
+export function useAudioPlayer(data: any) {
 	let player = useContext(AudioPlayerContext)
 
 	return useMemo(
 		() => ({
 			...player,
 			play() {
-				player.play(data)
+				player?.play(data)
 			},
 			toggle() {
-				player.toggle(data)
+				player?.toggle(data)
 			},
 			get playing() {
-				return player.isPlaying(data)
+				return player?.isPlaying(data)
 			},
 		}),
 		[player, data]
