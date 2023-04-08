@@ -3,29 +3,64 @@ import { createContext, useContext, useMemo, useReducer, useRef } from 'react'
 
 const AudioPlayerContext = createContext(null)
 
-const reducers = {
-	SET_META(state: any, action: { payload: any }) {
-		return { ...state, meta: action.payload }
-	},
-	PLAY(state: any, _action: any) {
-		return { ...state, playing: true }
-	},
-	PAUSE(state: any, _action: any) {
-		return { ...state, playing: false }
-	},
-	TOGGLE_MUTE(state: { muted: any }, _action: any) {
-		return { ...state, muted: !state.muted }
-	},
-	SET_CURRENT_TIME(state: any, action: { payload: any }) {
-		return { ...state, currentTime: action.payload }
-	},
-	SET_DURATION(state: any, action: { payload: any }) {
-		return { ...state, duration: action.payload }
-	},
+type SetMetaType = {
+	type: 'SET_META'
+	payload: any
+}
+type AudioPlayTypes = {
+	type: 'PLAY' | 'PAUSE' | 'TOGGLE_MUTE'
+	payload?: boolean
+}
+type AudioSetTimeTypes = {
+	type: 'SET_CURRENT_TIME' | 'SET_DURATION'
+	payload: any
 }
 
-function audioReducer(state: any, action: any) {
-	return reducers[action?.type](state, action)
+type AudioActionType = SetMetaType | AudioPlayTypes | AudioSetTimeTypes
+
+type AudioStateType = {
+	meta: any
+	playing: boolean
+	muted: boolean
+	currentTime: any
+	duration: any
+}
+
+function audioReducer(state: AudioStateType, action: AudioActionType) {
+	switch (action.type) {
+		case 'SET_META':
+			return {
+				...state,
+				meta: action.payload,
+			}
+		case 'PLAY':
+			return {
+				...state,
+				playing: true,
+			}
+		case 'PAUSE':
+			return {
+				...state,
+				playing: false,
+			}
+		case 'TOGGLE_MUTE':
+			return {
+				...state,
+				muted: !state.muted,
+			}
+		case 'SET_CURRENT_TIME':
+			return {
+				...state,
+				currentTime: action.payload,
+			}
+		case 'SET_DURATION':
+			return {
+				...state,
+				duration: action.payload,
+			}
+		default:
+			return state
+	}
 }
 
 export function AudioProvider({ children }: { children: React.ReactNode }) {
@@ -36,16 +71,16 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
 		currentTime: 0,
 		meta: null,
 	})
-	let playerRef = useRef<any>(null)
+	let playerRef = useRef(null)
 
 	let actions = useMemo(() => {
 		return {
-			play(data: { audio: { src: any } }) {
+			play(data) {
 				if (data) {
 					dispatch({ type: 'SET_META', payload: data })
 
 					if (playerRef.current.currentSrc !== data.audio.src) {
-						let playbackRate = playerRef?.current?.playbackRate
+						let playbackRate = playerRef.current.playbackRate
 						playerRef.current.src = data.audio.src
 						playerRef.current.load()
 						playerRef.current.pause()
@@ -59,22 +94,22 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
 			pause() {
 				playerRef.current.pause()
 			},
-			toggle(data: any) {
+			toggle(data) {
 				this.isPlaying(data) ? actions.pause() : actions.play(data)
 			},
-			seekBy(amount: any) {
+			seekBy(amount) {
 				playerRef.current.currentTime += amount
 			},
-			seek(time: any) {
+			seek(time) {
 				playerRef.current.currentTime = time
 			},
-			playbackRate(rate: any) {
+			playbackRate(rate) {
 				playerRef.current.playbackRate = rate
 			},
 			toggleMute() {
 				dispatch({ type: 'TOGGLE_MUTE' })
 			},
-			isPlaying(data: { audio: { src: any } }) {
+			isPlaying(data) {
 				return data
 					? state.playing && playerRef.current.currentSrc === data.audio.src
 					: state.playing
@@ -111,20 +146,20 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
 	)
 }
 
-export function useAudioPlayer(data: unknown) {
-	let player: any = useContext(AudioPlayerContext)
+export function useAudioPlayer(data) {
+	let player = useContext(AudioPlayerContext)
 
 	return useMemo(
 		() => ({
 			...player,
 			play() {
-				player?.play(data)
+				player.play(data)
 			},
 			toggle() {
-				player?.toggle(data)
+				player.toggle(data)
 			},
 			get playing() {
-				return player?.isPlaying(data)
+				return player.isPlaying(data)
 			},
 		}),
 		[player, data]
