@@ -1,7 +1,6 @@
 'use client'
 import { useMemo } from 'react'
 import { useAudioPlayer } from './AudioProvider'
-import { Container } from './Container'
 import Link from 'next/link'
 import { FormattedDate } from './FormattedDate'
 
@@ -26,104 +25,54 @@ export default function EpisodeItem({ episode }: { episode: EpisodeProps }) {
 				src: episode.audio?.src,
 				type: episode.audio?.type,
 			},
-			link: `/episode/${episode.id}`,
+			link: `/episodes/${episode.id}`,
 		}),
 		[episode]
 	)
 	let player = useAudioPlayer(audioPlayerData)
 
 	return (
-		// <article
-		// 	aria-labelledby={`episode-${episode.id}-title`}
-		// 	className='py-10 sm:py-12'>
-		// 	<Container>
-		// 		<div className='flex flex-col items-start'>
-		// 			<h2
-		// 				id={`episode-${episode.id}-title`}
-		// 				className='mt-2 text-lg font-bold text-gray-200'>
-		// 				<Link href={`/episode/${episode.id}`}>{episode.title}</Link>
-		// 			</h2>
-		// 			<FormattedDate
-		// 				date={date}
-		// 				className='order-first font-mono text-sm leading-7 text-slate-500'
-		// 			/>
-		// 			<p className='mt-1 text-base leading-7 text-slate-400'>
-		// 				{episode.description}
-		// 			</p>
-		// 			<div className='flex items-center gap-4 mt-4'>
-		// 				<button
-		// 					type='button'
-		// 					onClick={() => player.toggle()}
-		// 					className='flex items-center text-sm font-bold leading-6 text-amber-800 hover:text-amber-900 active:text-teal-900'
-		// 					aria-label={`${player.playing ? 'Pause' : 'Play'} episode ${
-		// 						episode.title
-		// 					}`}>
-		// 					<PlayPauseIcon
-		// 						playing={player.playing}
-		// 						className='h-2.5 w-2.5 fill-current'
-		// 					/>
-		// 					<span className='ml-3' aria-hidden='true'>
-		// 						Listen
-		// 					</span>
-		// 				</button>
-		// 				<span
-		// 					aria-hidden='true'
-		// 					className='text-sm font-bold text-slate-400'>
-		// 					/
-		// 				</span>
-		// 				<Link
-		// 					href={`/episode/${episode.id}`}
-		// 					className='flex items-center text-sm font-bold leading-6 text-teal-500 hover:text-amber-800 active:text-amber-900'
-		// 					aria-label={`Show notes for episode ${episode.title}`}>
-		// 					Show notes
-		// 				</Link>
-		// 			</div>
-		// 		</div>
-		// 	</Container>
-		// </article>
 		<>
-			
-				<div className='col-span-12 space-y-12 relative px-4 sm:col-span-8 sm:space-y-8 sm:before:absolute sm:before:top-2 sm:before:bottom-0 sm:before:w-0.5 sm:before:-left-3 before:dark:bg-gray-700'>
-					<div className='flex flex-col sm:relative sm:before:absolute sm:before:top-2 sm:before:w-4 sm:before:h-4 sm:before:rounded-full sm:before:left-[-35px] sm:before:z-[1] before:dark:bg-violet-400'>
-						<h3 className='text-xl font-semibold tracking-wide'>
-							<Link href={`/episode/${episode.id}`}>{episode.title}</Link>
-						</h3>
-						<FormattedDate
-							date={date}
-							className='order-first font-mono text-sm leading-7 text-slate-500'
-						/>
-						<p className='mt-3'>{episode.description}</p>
-						<div className='flex items-center gap-4 mt-4'>
-							<button
-								type='button'
-								onClick={() => player.toggle()}
-								className='flex items-center text-sm font-bold leading-6 text-amber-800 hover:text-amber-900 active:text-teal-900'
-								aria-label={`${player.playing ? 'Pause' : 'Play'} episode ${
-									episode.title
-								}`}>
-								<PlayPauseIcon
-									playing={player.playing}
-									className='h-2.5 w-2.5 fill-current'
-								/>
-								<span className='ml-3' aria-hidden='true'>
-									Listen
-								</span>
-							</button>
-							<span
-								aria-hidden='true'
-								className='text-sm font-bold text-slate-400'>
-								/
+			<div className='col-span-12 space-y-12 relative px-4 sm:col-span-8 sm:space-y-8 sm:before:absolute sm:before:top-2 sm:before:bottom-0 sm:before:w-0.5 sm:before:-left-3 before:dark:bg-gray-700'>
+				<div className='flex flex-col sm:relative sm:before:absolute sm:before:top-2 sm:before:w-4 sm:before:h-4 sm:before:rounded-full sm:before:left-[-35px] sm:before:z-[1] before:dark:bg-violet-400'>
+					<h3 className='text-xl font-semibold tracking-wide'>
+						<Link href={`/episodes/${episode.id}`}>{episode.title}</Link>
+					</h3>
+					<FormattedDate
+						date={date}
+						className='order-first font-mono text-sm leading-7 text-slate-500'
+					/>
+					<p className='mt-3'>{episode.description}</p>
+					<div className='flex items-center gap-4 mt-4'>
+						<button
+							type='button'
+							onClick={() => player.toggle()}
+							className='flex items-center text-sm font-bold leading-6 text-amber-800 hover:text-amber-900 active:text-teal-900'
+							aria-label={`${player.playing ? 'Pause' : 'Play'} episode ${
+								episode.title
+							}`}>
+							<PlayPauseIcon
+								playing={player.playing}
+								className='h-2.5 w-2.5 fill-current'
+							/>
+							<span className='ml-3' aria-hidden='true'>
+								Listen
 							</span>
-							<Link
-								href={`/episode/${episode.id}`}
-								className='flex items-center text-sm font-bold leading-6 text-teal-500 hover:text-amber-800 active:text-amber-900'
-								aria-label={`Show notes for episode ${episode.title}`}>
-								Show notes
-							</Link>
-						</div>
+						</button>
+						<span
+							aria-hidden='true'
+							className='text-sm font-bold text-slate-400'>
+							/
+						</span>
+						<Link
+							href={`/episodes/${episode.id}`}
+							className='flex items-center text-sm font-bold leading-6 text-teal-500 hover:text-amber-800 active:text-amber-900'
+							aria-label={`Show notes for episode ${episode.title}`}>
+							Show notes
+						</Link>
 					</div>
 				</div>
-			
+			</div>
 		</>
 	)
 }

@@ -10,7 +10,7 @@ import {
 import { useSliderState } from 'react-stately'
 import clsx from 'clsx'
 
-function parseTime(seconds: number) {
+function parseTime(seconds) {
 	let hours = Math.floor(seconds / 3600)
 	let minutes = Math.floor((seconds - hours * 3600) / 60)
 	seconds = seconds - hours * 3600 - minutes * 60
@@ -23,11 +23,11 @@ function formatTime(seconds, totalSeconds = seconds) {
 	)
 	return seconds
 		.slice(seconds.length - totalWithoutLeadingZeroes.length)
-		.map((x) => x.toString().padStart(2, '0'))
+		.map((x: { toString: () => string }) => x.toString().padStart(2, '0'))
 		.join(':')
 }
 
-function Thumb(props: any) {
+function Thumb(props) {
 	let { state, trackRef, focusProps, isFocusVisible, index } = props
 	let inputRef = useRef(null)
 	let { thumbProps, inputProps } = useSliderThumb(
@@ -48,14 +48,14 @@ function Thumb(props: any) {
 					props.onChangeStart?.()
 				}}
 				onPointerDown={(...args) => {
-					thumbProps.onPointerDown!(...args)
+					thumbProps?.onPointerDown!(...args)
 					props.onChangeStart?.()
 				}}
 				className={clsx(
 					'h-4 rounded-full',
 					isFocusVisible || state.isThumbDragging(index)
-						? 'w-1.5 bg-slate-900'
-						: 'w-1 bg-slate-700'
+						? 'w-1.5 bg-lime-500'
+						: 'w-1 bg-lime-900'
 				)}>
 				<VisuallyHidden>
 					<input ref={inputRef} {...mergeProps(inputProps, focusProps)} />
@@ -65,7 +65,7 @@ function Thumb(props: any) {
 	)
 }
 
-export function Slider(props: any) {
+export function Slider(props) {
 	let trackRef = useRef(null)
 	let state = useSliderState(props)
 	let { groupProps, trackProps, labelProps, outputProps } = useSlider(
@@ -81,7 +81,7 @@ export function Slider(props: any) {
 	return (
 		<div
 			{...groupProps}
-			className='absolute inset-x-0 bottom-full flex flex-auto touch-none items-center gap-6 md:relative'>
+			className='absolute inset-x-0 bottom-full flex flex-auto touch-none items-center gap-6 md:relative text-white'>
 			{props.label && (
 				<label className='sr-only' {...labelProps}>
 					{props.label}
@@ -90,21 +90,21 @@ export function Slider(props: any) {
 			<div
 				{...trackProps}
 				onMouseDown={(...args) => {
-					trackProps.onMouseDown!(...args)
+					trackProps?.onMouseDown!(...args)
 					props.onChangeStart?.()
 				}}
 				onPointerDown={(...args) => {
-					trackProps.onPointerDown!(...args)
+					trackProps?.onPointerDown!(...args)
 					props.onChangeStart?.()
 				}}
 				ref={trackRef}
-				className='relative w-full bg-slate-100 md:rounded-full'>
+				className='relative w-full bg-slate-300 md:rounded-full'>
 				<div
 					className={clsx(
 						'h-2 md:rounded-r-md md:rounded-l-xl',
 						isFocusVisible || state.isThumbDragging(0)
-							? 'bg-slate-900'
-							: 'bg-slate-700'
+							? 'bg-emerald-800'
+							: 'bg-emerald-600'
 					)}
 					style={{
 						width:
@@ -134,8 +134,8 @@ export function Slider(props: any) {
 						'hidden rounded-md px-1 py-0.5 font-mono text-sm leading-6 md:block',
 						state.getThumbMaxValue(0) === 0 && 'opacity-0',
 						isFocusVisible || state.isThumbDragging(0)
-							? 'bg-slate-100 text-slate-900'
-							: 'text-slate-500'
+							? 'bg-slate-100 text-slate-200'
+							: 'text-gray-300'
 					)}>
 					{formatTime(currentTime, totalTime)}
 				</output>
@@ -144,7 +144,7 @@ export function Slider(props: any) {
 				</span>
 				<span
 					className={clsx(
-						'hidden rounded-md px-1 py-0.5 font-mono text-sm leading-6 text-slate-500 md:block',
+						'hidden rounded-md px-1 py-0.5 font-mono text-sm leading-6 text-slate-200 md:block',
 						state.getThumbMaxValue(0) === 0 && 'opacity-0'
 					)}>
 					{formatTime(totalTime)}

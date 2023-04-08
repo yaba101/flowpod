@@ -26,7 +26,7 @@ export default function EpisodePage({ episode }: { episode: EpisodeProps }) {
 				src: episode.audio.src,
 				type: episode.audio.type,
 			},
-			link: `/episode/${episode.id}`,
+			link: `/episodes/${episode.id}`,
 		}),
 		[episode]
 	)
@@ -34,7 +34,7 @@ export default function EpisodePage({ episode }: { episode: EpisodeProps }) {
 
 	return (
 		<>
-			<article className='py-16 lg:py-36 bg-slate-950'>
+			<article className='py-16 lg:py-36 bg-gray-800'>
 				<Container>
 					<header className='flex flex-col'>
 						<div className='flex items-center gap-6'>
