@@ -34,7 +34,7 @@ export default function EpisodePage({ episode }: { episode: EpisodeProps }) {
 
 	return (
 		<>
-			<article className='py-16 lg:py-36 bg-gray-800'>
+			<article className='py-16 bg-gray-800 lg:py-36'>
 				<Container>
 					<header className='flex flex-col'>
 						<div className='flex items-center gap-6'>
@@ -49,7 +49,7 @@ export default function EpisodePage({ episode }: { episode: EpisodeProps }) {
 								/>
 							</div>
 						</div>
-						<p className='ml-24 mt-3 text-lg font-medium leading-8 text-slate-300'>
+						<p className='mt-3 ml-24 text-lg font-medium leading-8 text-slate-300'>
 							{episode.description}
 						</p>
 					</header>

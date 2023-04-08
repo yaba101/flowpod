@@ -10,16 +10,16 @@ import {
 import { useSliderState } from 'react-stately'
 import clsx from 'clsx'
 
-function parseTime(seconds) {
+function parseTime(seconds: number) {
 	let hours = Math.floor(seconds / 3600)
 	let minutes = Math.floor((seconds - hours * 3600) / 60)
 	seconds = seconds - hours * 3600 - minutes * 60
 	return [hours, minutes, seconds]
 }
 
-function formatTime(seconds, totalSeconds = seconds) {
+function formatTime(seconds: any[], totalSeconds = seconds) {
 	let totalWithoutLeadingZeroes = totalSeconds.slice(
-		totalSeconds.findIndex((x) => x !== 0)
+		totalSeconds.findIndex((x: number) => x !== 0)
 	)
 	return seconds
 		.slice(seconds.length - totalWithoutLeadingZeroes.length)
@@ -27,7 +27,7 @@ function formatTime(seconds, totalSeconds = seconds) {
 		.join(':')
 }
 
-function Thumb(props) {
+function Thumb(props: any) {
 	let { state, trackRef, focusProps, isFocusVisible, index } = props
 	let inputRef = useRef(null)
 	let { thumbProps, inputProps } = useSliderThumb(
@@ -37,7 +37,7 @@ function Thumb(props) {
 
 	return (
 		<div
-			className='absolute -top-1/2 -translate-x-1/2'
+			className='absolute -translate-x-1/2 -top-1/2'
 			style={{
 				left: `${state.getThumbPercent(index) * 100}%`,
 			}}>
@@ -65,7 +65,7 @@ function Thumb(props) {
 	)
 }
 
-export function Slider(props) {
+export function Slider(props: any) {
 	let trackRef = useRef(null)
 	let state = useSliderState(props)
 	let { groupProps, trackProps, labelProps, outputProps } = useSlider(
@@ -81,7 +81,7 @@ export function Slider(props) {
 	return (
 		<div
 			{...groupProps}
-			className='absolute inset-x-0 bottom-full flex flex-auto touch-none items-center gap-6 md:relative text-white'>
+			className='absolute inset-x-0 flex items-center flex-auto gap-6 text-white bottom-full touch-none md:relative'>
 			{props.label && (
 				<label className='sr-only' {...labelProps}>
 					{props.label}
@@ -126,7 +126,7 @@ export function Slider(props) {
 					isFocusVisible={isFocusVisible}
 				/>
 			</div>
-			<div className='hidden items-center gap-2 md:flex'>
+			<div className='items-center hidden gap-2 md:flex'>
 				<output
 					{...outputProps}
 					aria-live='off'
