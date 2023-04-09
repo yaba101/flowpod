@@ -1,14 +1,39 @@
 import Link from 'next/link'
-import {
-	ApplePodcastIcon,
-	SpotifyIcon,
-	OvercastIcon,
-	PersonIcon,
-	RSSIcon,
-} from '@/components/Icons'
+import { ApplePodcastIcon, SpotifyIcon, OvercastIcon } from '@/components/Icons'
+import { client } from '@/lib/contentful/client'
 import LatestEpisode from './LatestEpisode'
 
-const LandingPage = () => {
+export type LatestEpisodeProps = {
+	id: string
+	title: string
+	slug: string
+	description: string
+}
+type LatestEpisodeItemProps = {
+	fields: {
+		title: string
+		slug: string
+		description: string
+	}
+}
+
+async function getLatestEpisodes(): Promise<LatestEpisodeProps[]> {
+	const response = await client.getEntries({ content_type: 'latestEpisodes' })
+	const episodes: LatestEpisodeProps[] = await response.items.map(
+		(item: LatestEpisodeItemProps) => {
+			return {
+				id: item.fields.slug,
+				title: item.fields.title,
+				slug: item.fields.slug,
+				description: item.fields.description,
+			}
+		}
+	)
+	return episodes
+}
+
+const LandingPage = async () => {
+	const latestEpisodes = await getLatestEpisodes()
 	return (
 		<>
 			<div className=' bg-slate-950'>
@@ -26,14 +51,14 @@ const LandingPage = () => {
 							<div className='flex md:hidden gap-x-5'>
 								<Link
 									className='font-medium text-blue-600 md:py-6 dark:text-blue-500'
-									href='#'
+									href='/episodes'
 									aria-current='page'>
 									Episodes
 								</Link>
 
 								<Link
 									className='font-medium text-gray-500 hover:text-gray-400 md:py-6 dark:text-gray-400 dark:hover:text-gray-500'
-									href='#'>
+									href='/livestream'>
 									LiveStream
 								</Link>
 							</div>
@@ -49,7 +74,7 @@ const LandingPage = () => {
 
 								<Link
 									className='font-medium text-gray-500 hover:text-gray-400 md:py-6 dark:text-gray-400 dark:hover:text-gray-500'
-									href='#'>
+									href='/livestream'>
 									LiveStream
 								</Link>
 							</div>
@@ -131,7 +156,12 @@ const LandingPage = () => {
 					<p>Get the latest episodes every friday at 3 pm</p>
 				</div>
 				<div className='grid items-center justify-center grid-cols-2 p-10 mb-1 ml-3 mr-3 shadow-inner  shadow-gray-800'>
-					<LatestEpisode />
+					{latestEpisodes.map((latestEpisode) => (
+						<LatestEpisode
+							key={latestEpisode.id}
+							latestEpisode={latestEpisode}
+						/>
+					))}
 				</div>
 				<section className='p-10 dark:bg-slate-950 dark:text-gray-100 '>
 					<hr className='w-48 h-1 mx-auto bg-gray-100 border-0 rounded dark:bg-gray-700' />
