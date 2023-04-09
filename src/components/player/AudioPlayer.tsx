@@ -67,17 +67,17 @@ export function AudioPlayer() {
 						maxValue={player.duration}
 						step={1}
 						value={[currentTime ?? player.currentTime]}
-						onChange={([v]) => setCurrentTime(v)}
+						onChange={(v: any) => setCurrentTime(v)}
 						onChangeEnd={(value: any) => {
-							player.seek(value)
+							player.seek!(value)
 							if (wasPlayingRef.current) {
 								player.play()
 							}
 						}}
 						numberFormatter={{ format: formatHumanTime }}
 						onChangeStart={() => {
-							wasPlayingRef.current = player.playing
-							player.pause()
+							;(wasPlayingRef as any).current = player.playing
+							player.pause!()
 						}}
 					/>
 					<div className='flex items-center gap-4'>

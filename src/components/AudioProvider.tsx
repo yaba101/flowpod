@@ -112,7 +112,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
 		currentTime: 0,
 		meta: null,
 	})
-	let playerRef = useRef<any>(null)
+	let playerRef: any = useRef<any>(null)
 
 	let actions = useMemo(() => {
 		return {
@@ -172,13 +172,13 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
 				onTimeUpdate={(event) => {
 					dispatch({
 						type: 'SET_CURRENT_TIME',
-						payload: Math.floor(event.target.currentTime),
+						payload: Math.floor((event.target as any).currentTime),
 					})
 				}}
 				onDurationChange={(event) => {
 					dispatch({
 						type: 'SET_DURATION',
-						payload: Math.floor(event.target.duration),
+						payload: Math.floor((event.target as any).duration),
 					})
 				}}
 				muted={state.muted}
