@@ -8,7 +8,7 @@ import { MuteButton } from '@/components/player/MuteButton'
 import { PlaybackRateButton } from '@/components/player/PlaybackRateButton'
 import { PlayButton } from '@/components/player/PlayButton'
 import { RewindButton } from '@/components/player/RewindButton'
-import Slider from '@/components/player/Slider'
+import AudioSlider from './AudioSlider'
 
 function parseTime(seconds: number) {
 	let hours = Math.floor(seconds / 3600)
@@ -62,8 +62,7 @@ export function AudioPlayer() {
 						</div>
 						<ForwardButton player={player} />
 					</div>
-					<Slider
-						label='Current-time'
+					<AudioSlider
 						maxValue={player.duration}
 						step={1}
 						value={[currentTime ?? player.currentTime]}
