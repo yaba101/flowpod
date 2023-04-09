@@ -1,3 +1,7 @@
+export const metadata = {
+	title: 'episode',
+	description: 'FlowPod Episode',
+}
 export default function LiveStreamLayout({
 	children,
 }: {

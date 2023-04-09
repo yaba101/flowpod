@@ -40,7 +40,6 @@ async function getEpisode(params: string): Promise<EpisodeProps> {
 
 const page = async ({ params }: { params: { episode: string } }) => {
 	const episode = await getEpisode(params.episode)
-	console.log(params.episode)
 	if (!episode) return notFound()
 	return <EpisodePage episode={episode} key={episode.id} />
 }

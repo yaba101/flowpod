@@ -1,6 +1,11 @@
 import React, { Fragment } from 'react'
 import { AudioPlayer } from '@/components/player/AudioPlayer'
 
+export const metadata = {
+	title: 'Episodes',
+	description: 'FlowPod Episodes',
+}
+
 export default function EpisodesLayout({
 	children,
 }: {
