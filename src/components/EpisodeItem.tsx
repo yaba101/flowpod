@@ -2,11 +2,12 @@
 import { useMemo } from 'react'
 import { useAudioPlayer } from './AudioProvider'
 import Link from 'next/link'
-import { FormattedDate } from './FormattedDate'
+import { format, parse } from 'date-fns'
 
-type EpisodeProps = {
+export type EpisodeProps = {
 	id: string
 	title: string
+	slug: string
 	audio: {
 		src: string
 		type: string
@@ -16,7 +17,7 @@ type EpisodeProps = {
 }
 
 export default function EpisodeItem({ episode }: { episode: EpisodeProps }) {
-	let date = new Date(episode.published)
+	const date = new Date(episode.published)
 
 	let audioPlayerData = useMemo(
 		() => ({
@@ -25,7 +26,7 @@ export default function EpisodeItem({ episode }: { episode: EpisodeProps }) {
 				src: episode.audio?.src,
 				type: episode.audio?.type,
 			},
-			link: `/episodes/${episode.id}`,
+			link: `/episodes/${episode.slug}`,
 		}),
 		[episode]
 	)
@@ -36,12 +37,11 @@ export default function EpisodeItem({ episode }: { episode: EpisodeProps }) {
 			<div className='col-span-12 space-y-12 relative px-4 sm:col-span-8 sm:space-y-8 sm:before:absolute sm:before:top-2 sm:before:bottom-0 sm:before:w-0.5 sm:before:-left-3 before:dark:bg-gray-700'>
 				<div className='flex flex-col sm:relative sm:before:absolute sm:before:top-2 sm:before:w-4 sm:before:h-4 sm:before:rounded-full sm:before:left-[-35px] sm:before:z-[1] before:dark:bg-violet-400'>
 					<h3 className='text-xl font-semibold tracking-wide'>
-						<Link href={`/episodes/${episode.id}`}>{episode.title}</Link>
+						<Link href={`/episodes/${episode.slug}`}>{episode.title}</Link>
 					</h3>
-					<FormattedDate
-						date={date}
-						className='order-first font-mono text-sm leading-7 text-slate-500'
-					/>
+					<time className='order-first font-mono text-sm leading-7 text-slate-500'>
+						{format(date, 'h:mm a')}
+					</time>
 					<p className='mt-3'>{episode.description}</p>
 					<div className='flex items-center gap-4 mt-4'>
 						<button
@@ -65,7 +65,7 @@ export default function EpisodeItem({ episode }: { episode: EpisodeProps }) {
 							/
 						</span>
 						<Link
-							href={`/episodes/${episode.id}`}
+							href={`/episodes/${episode.slug}`}
 							className='flex items-center text-sm font-bold leading-6 text-teal-500 hover:text-amber-800 active:text-amber-900'
 							aria-label={`Show notes for episode ${episode.title}`}>
 							Show notes

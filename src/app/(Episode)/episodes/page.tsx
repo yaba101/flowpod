@@ -1,30 +1,53 @@
-import { Container } from '@/components/Container'
-import EpisodeItem from '@/components/EpisodeItem'
-import React, { Fragment } from 'react'
-import { parse } from 'rss-to-json'
+import EpisodeItem, { type EpisodeProps } from '@/components/EpisodeItem'
+import { client } from '@/lib/contentful/client'
 
-async function getEpisodes() {
-	let feed = await parse('https://their-side-feed.vercel.app/api/feed')
-	let episodes = feed.items.map(
-		({ id, title, description, enclosures, published }) => ({
-			id,
-			title: `${id}: ${title}`,
-			published,
-			description,
-			audio: enclosures.map((enclosure: { url: string; type: string }) => ({
-				src: enclosure.url,
-				type: enclosure.type,
-			}))[0],
-		})
+export type EpisodeTypeProps = {
+	fields: {
+		podcastAudio: {
+			sys: {
+				id: string
+				createdAt: string
+			}
+			fields: {
+				file: {
+					url: string
+					contentType: string
+				}
+			}
+		}
+		title: string
+		slug: string
+		description: string
+		content: string
+	}
+}
+
+async function getEpisodes(): Promise<EpisodeProps[]> {
+	const response = await client.getEntries({ content_type: 'episodes' })
+	const episodes: EpisodeProps[] = await response.items.map(
+		(item: EpisodeTypeProps) => {
+			return {
+				id: item.fields.podcastAudio.sys.id,
+				title: item.fields.title,
+				slug: item.fields.slug,
+				published: item.fields.podcastAudio.sys.createdAt,
+				description: item.fields.description,
+				audio: {
+					src: item.fields.podcastAudio.fields.file.url,
+					type: item.fields.podcastAudio.fields.file.contentType,
+				},
+			}
+		}
 	)
 	return episodes
 }
 
 const page = async () => {
 	const episodes = await getEpisodes()
+
 	return (
 		<>
-			<section className='dark:bg-gray-800 dark:text-gray-100'>
+			<section className='h-screen dark:bg-gray-800 dark:text-gray-100'>
 				<div className='container max-w-5xl px-4 py-12 mx-auto'>
 					<div className='grid gap-4 mx-4 sm:grid-cols-12'>
 						<div className='col-span-12 sm:col-span-3'>
@@ -36,7 +59,7 @@ const page = async () => {
 							</div>
 						</div>
 						<div className='relative col-span-12 px-4 space-y-6 sm:col-span-9'>
-							{episodes.map((episode) => (
+							{episodes.map((episode: EpisodeProps) => (
 								<EpisodeItem key={episode.id} episode={episode} />
 							))}
 						</div>
