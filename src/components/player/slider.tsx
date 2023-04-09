@@ -65,7 +65,7 @@ function Thumb(props: any) {
 	)
 }
 
-export function Slider(props: any) {
+export default function Slider(props: any) {
 	let trackRef = useRef(null)
 	let state = useSliderState(props)
 	let { groupProps, trackProps, labelProps, outputProps } = useSlider(

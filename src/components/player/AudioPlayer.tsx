@@ -8,7 +8,7 @@ import { MuteButton } from '@/components/player/MuteButton'
 import { PlaybackRateButton } from '@/components/player/PlaybackRateButton'
 import { PlayButton } from '@/components/player/PlayButton'
 import { RewindButton } from '@/components/player/RewindButton'
-import { Slider } from './Slider'
+import Slider from '@/components/player/Slider'
 
 function parseTime(seconds: number) {
 	let hours = Math.floor(seconds / 3600)
